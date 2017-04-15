@@ -60,6 +60,25 @@
 		- What if it CAN connect to the server? Ah, I guess whatever changes a re-connected follower (by refreshing their page)
 			attempts to make to the original pad on CES and merging those results with the eventually-reconnected P2P network
 			should ultimately be handled by Etherpad's built-in functionality and mergeset algorithm.
+NEW	- What should the Client-Peer code do in the event of disconnecting from the leader? Lock out the user from changes in our
+		crappy UI until it detects that it can re-connect again and receive the leader's changes in that interim period? And again,
+		time-out eventually in that event and attempt its own leader-election?
+NEW	- When should these persisted changes be read again? Because let's say everyone -- including the temporary leader -- accidentally
+		refreshes and loses all mention/reference to this locally-cached persistent storage of all updates to the pad while the
+		CES was down; how are those changes recovered?
+		- What you could do... is when a client refreshes, and they try to reconnect to the main CES again, CES (now back online) will
+			either send back the home HTML page (where the user enters in the name of the pad first) OR will just refresh to requesting
+			from CES the actual original pad's HTML page (since they're refreshing to that same URL and Etherpad differentiates pads by
+			URL). Thus, we need to modify the Client-Side code to be able to detect exactly when a pad arrives, and in that split instance,
+			check (via HTML5's LocalStorage) that there aren't any locally-persisted storage objects with the key of this pad's URL or name,
+			and if there is an object by that name, the Client-Side code immediately extracts it and manually adds to (or replaces?) all the 
+			text in the original pad with those changes (can even have, in the interim, a lock-out mechanism that prevents the user from 
+			typing until these changes have been applied, similar to what Etherpad does when the user disconnects); that way, by just
+			changing the pad's contents as soon as we get it, the original client-side Etherpad code will submit those changes directly to
+			CES and have those changes committed there.
+			- https://www.w3schools.com/html/html5_webstorage.asp
+			- https://www.smashingmagazine.com/2010/10/local-storage-and-how-to-use-it/#use-case-2-maintaining-the-state-of-an-interface-the-simple-way
+			- http://blog.teamtreehouse.com/storing-data-on-the-client-with-localstorage
 7. Meanwhile, in the background, each peer is attempting to re-connect to CES -- in the event that any follower is able to
 	re-connect to CES, it notifies the leader. Once the leader discovers that CES is back up again (either by a notification
 	from a follower or by its own background process), it immediately A) suspends the user from being able to write anymore, 
@@ -130,11 +149,13 @@ https://github.com/ether/etherpad-lite/blob/develop/doc/easysync/easysync-full-d
 https://github.com/ether/etherpad-lite/blob/develop/doc/easysync/easysync-notes.pdf
 https://github.com/ether/etherpad-lite/blob/develop/doc/api/changeset_library.md
 
+
 https://github.com/ether/etherpad-lite/blob/develop/doc/plugins.md
 https://www.npmjs.com/package/etherpad-pluginhelper
 http://etherpad.org/doc/v1.5.7/#index_hooks
 https://github.com/ether/etherpad-lite/blob/develop/doc/api/hooks_client-side.md
 https://github.com/ether/etherpad-lite/blob/develop/doc/api/hooks_server-side.md
+
 Potentially Useful Hooks (and file this function is located in):
 aceEditEvent					src/static/js/ace2_inner.js, 
 postAceInit & aceInitialized 	src/static/js/pad.js, 
