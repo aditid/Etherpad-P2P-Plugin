@@ -1,0 +1,15 @@
+{
+  "name": "ep_p2p",
+  "version": "0.0.1",
+  "description": "Fault-tolerance for central Etherpad server failures through temporary client P2P networks to continue working on pads.",
+  "author": {
+    "name": "BU CS651 Team: Aditi Dass, David Wang, JDong16, Liu Youcun",
+  },
+  "contributors": [],
+  "peerDependencies": {"ep_etherpad_lite":">=1.5.1"},
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "dependencies": {},
+  "readmeFilename": "README.md"
+}

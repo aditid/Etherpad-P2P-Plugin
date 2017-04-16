@@ -150,6 +150,7 @@ https://github.com/ether/etherpad-lite/blob/develop/doc/easysync/easysync-notes.
 https://github.com/ether/etherpad-lite/blob/develop/doc/api/changeset_library.md
 
 
+https://github.com/ether/etherpad-lite/wiki/Creating-a-plugin
 https://github.com/ether/etherpad-lite/blob/develop/doc/plugins.md
 https://www.npmjs.com/package/etherpad-pluginhelper
 http://etherpad.org/doc/v1.5.7/#index_hooks
