@@ -167,3 +167,99 @@ getLineHTMLForExport 			src/node/utils/ExportHtml.js,
 clientVars 						src/node/handler/PadMessageHandler.js, 
 padUpdate 						src/node/db/Pad.js, 
 handleMessage 					src/node/handler/PadMessageHandler.js
+
+
+
+##### More Notes on Etherpad Code Organization
+Oh that's interesting...
+src/static/js/admin/settings.js
+src/static/js/timeslider.js
+src/static/js/admin/plugins.js
+src/static/js/pad.js
+	are the client-side files that begin the connection with the server (via the lines "io.connect(...)" or "socket.connect(...)"), and
+src/node/handler/SocketIORouter.js
+	is the handler on the server-side that ultimately receives these connection requests on the server-side, that hands off the connection 
+	to another function called handleConnect() within PadMessageHandler.js (and also, all this sockets functionality is provided by some 
+	fundamental 'socket.io' library (that's also present in the HTML pages), that's also listed in Etherpad's package.json as a dependency); 
+	in SocketIORouter.js, it has some code that says:
+		for(var i in components) {
+			components[i].handleConnect(client);
+		}
+	where client was the passed in argument to the encapsulating function in "socket.sockets.on('connection', function(client) {...})"
+	while components is a map that takes in a module (and its name) and does the following: "components[moduleName] = module;" -- therefore,
+	if we take each of these client-side files to be a component, then each time a client connection request comes in on the server's socket,
+	the "handleConnect()" function is called to register each of them (this function is found in src/node/handler/PadMessageHandler.js).
+	Also, there are two more files that have similar "io.on('connection', function (socket) {...})" code -- that is:
+		src/node/hooks/express/adminplugins.js
+		src/node/hooks/express/adminsettings.js
+
+		
+ALSO, THIS FILE SEEMS EXTREMELY IMPORTANT AS CLIENT-SIDE CODE:
+src/static/js/collab_client.js
+	--> Furthermore, in here, is a function called handleMessageFromServer(), and it calls the hook "handleClientMessage_" + msg.type of the received
+		message (along with that message's payload), which can be a "SERVER_MESSAGE" or "USER_LEAVE" or a "ACCEPT_COMMIT", etc.
+		
+		
+##### More on SocketIO & Socket.io w/ Etherpad:
+https://github.com/ether/etherpad-lite/blob/7ecf240d9e46ac41259100bf83242ca7b8fc205b/src/node/hooks/express/socketio.js
+	has a line called "var socketio = require('socket.io');" which can be explained by
+https://socket.io/docs/#
+	and Etherpad uses the socketio var to consume the current application instance to create a server and listen on that server's open connections --
+	this can help be explained by
+http://stackoverflow.com/questions/33703546/difference-between-io-on-and-socket-on-in-socket-io
+http://stackoverflow.com/questions/24266910/io-onconnection-vs-io-sockets-onconnection
+http://stackoverflow.com/questions/13504320/socket-io-namespaces-channels-co
+	while afterwards, it then gets the client object returned from socket.io and obtains its IP address (via setSocketIO()), as explained in
+http://stackoverflow.com/questions/6458083/get-the-clients-ip-address-in-socket-io/25002414#25002414
+http://stackoverflow.com/questions/6458083/get-the-clients-ip-address-in-socket-io/37474244#37474244
+	and at which point it is ready to process that client's message (can be of various types, each different message processed by PadMessageHandler),
+	and then calls addComponent() within SocketIORouter.js on a "pad" component (the name for the component linked back to the PadMessageHandler module).
+
+https://github.com/ether/etherpad-lite/issues/1399
+https://github.com/ether/etherpad-lite/blob/115f7d6b5124a75f32654eb45c8e0edd65863f4e/node/PadMessageHandler.js
+https://github.com/ether/etherpad-lite/pull/1489
+https://github.com/ether/etherpad-lite/commit/14e1f3bf222947401b78147764e889bb446893af
+https://github.com/socketio/socket.io/blob/1f59e4526a9ff061512012cd47e65962ccd0e649/History.md
+https://github.com/socketio/socket.io/blob/01a4623613d9791d1c2043f092c7c25d55c35279/lib/socket.js
+
+
+##### How to Obtain & Broadcast IP Addresses from Server Code w/ Our Plugin
+src/node/handler/SocketIORouter.js
+	--> Can exploit lines 64-69 for later call within line 84's "client.on('message', function(message) {...})" 
+		that later passes the "client" object through to the handleMessage() function, which is called in...
+src/node/handler/PadMessageHandler.js
+	--> ...that can then be used to modify/add messages via the exposed hook in lines 197-205 of PadMessageHandler,
+		such that the client's IP address is gathered intermediately through the passed-in client object, stored in
+		some global state of the plugin's, along with all the other IP addresses of all other clients in this pad,
+		and depending on the type of the message received from the handleMessage() hook, we can also broadcast to the
+		receiving clients all the other clients' IP-addresses for a particular pad. Also, beware of handling messages
+		without first checking client authorization/access to a pad: 
+			https://github.com/ether/etherpad-lite/blob/f91534d57a3cddcd46aa58358684695a969705c9/doc/api/hooks_server-side.md
+			--> Getting IP address from client object can be done in multiple different ways through the Socket.io library
+			
+##### Possible Fixes to Injecting Client-Side Scripts
+	Look at how the code in index.js for eejsBlock_scripts here
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/index.js
+	injects the code found here
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/js/offline_edit.js
+	as a variable with method functionality to be called like so when the ep.json seen here
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/ep.json
+	registers a function for the exposed aceEditEvent hook that is explicitly exported/mentioned in here
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/js/aceEditEvent.js
+	which relies on said variable with method functionality and calls its method .save() WITHIN the HTML page --
+	I wonder if declaring those functions as a var with local scope within the HTML page made a difference?
+
+Also, how he adds paths to the Express Server application in index.js via the expressCreateServer hook and also
+the use of .appcache and ejs template files within the plug-in sent over to the application is a really good example
+of how we might need to do so in the future (for our crappy UI):
+	https://github.com/ether/etherpad-lite/blob/develop/doc/api/hooks_server-side.md#expresscreateserver
+	https://expressjs.com/en/api.html#app.get
+	***"HTML5 provides an application caching mechanism that lets web-based applications run offline."
+	https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache
+	
+##### On Potential Issues from Merging Changesets via Etherpad's Algorithm?
+Main Question: is the purpose of the timeslider object to prevent the case where a user writes X to the pad, then deletes X, 
+and then before the delete can commit, the write on the server commits and then gets broadcasted back to the user and that
+old, updated write overrules the later delete operation and puts X back into the user's pad? Read up:
+	https://github.com/ether/etherpad-lite/blob/7ecf240d9e46ac41259100bf83242ca7b8fc205b/doc/easysync/easysync-full-description.pdf
+	
