@@ -44,4 +44,13 @@
 	- As well, shutting off P2P connection (on ports?) of each temporary leader-client from receiving updates from disconnected returning followers
 	
 15. Figure out what to do in the event a follower disconnects from leader -- lock-out user from typing and message other peers to see if they can reach
-	leader, and A) if they can, wait until can connect to leader, or B) if they can't, wait until timeout to attempt new Raft leader election?
+	leader, and A) if they can, wait until can connect to leader, or B) if they can't, wait until timeout to attempt new Raft leader election? Until new
+	leader can be established, client is locked out from typing; old leader can continue to type regardless -- if it detects new leader is elected, all
+	changes are sent to new leader, but now new "precedence" from POV of old leader is established, in that if disconnected from new leader, now lock
+	out client from typing -- this makes it so that at any given point, only 2 partitions can continue to type, but if at any point one partition can
+	contact the other, the notification of recent leader will cascade and allow old partition to merge changes with other partition's changes (which can
+	do no worse than original Etherpad server given that 1. their mergeset algorithm works such that if it receives two changes A & B, the resulting 
+	document C must be the same as though it applied A-->B AND B-->A, and 2. we should have a reasonable amount of expectation that clients should adapt
+	their behavior of adding/deleting/updating to a document in real-time)
+	--> If we do implement our own UI in #10, should we allow notifications to users (like adding HTML <div>'s in real-time) to let them know if they've
+		disconnected from the leader/if they are the leader committing changes? Or is that something to be discussed in "Future Work"?
