@@ -281,5 +281,6 @@ old, updated write overrules the later delete operation and puts X back into the
 	Also, because we assume our plug-in is not scalable, this assumption helps circumvent any concerns of overloading a server/network due
 	to the constant broadcasting of a large number of IP addresses in the key-value store, that would then require a more scalable method of
 	peer IP-address discovery through something like distributed hash-tables/peer-lists commonly found in more fully-fledged P2P applications.
-	
+	- Cannot ultimately be more secure than any other P2P application: https://en.wikipedia.org/wiki/Peer-to-peer#Security_and_trust
+- See the "Future Work" section of the Chord paper for more ideas
 	
