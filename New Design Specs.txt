@@ -23,6 +23,7 @@
 		as well as all currently-participating clients' IP addresses.
 		- How are we supposed to do this? Is there an exposed hook within Etherpad's code that allows for sending along
 			client IP-addresses as well?
+			--> I figured out how exactly to do this.
 5. If CES goes down (as noted by each Client-Peer's code timing out on its tested connection with CES), and all Client-Peers 
 	are now seeking to elect a leader amongst themselves, we have a deterministic process that the alphabetically-first 
 	Client-Peer opens up some open port X and listens, while all other Client-Peers simultaneously attempt to connect to 

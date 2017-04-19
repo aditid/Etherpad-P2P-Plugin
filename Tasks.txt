@@ -1,0 +1,47 @@
+##### Tasks #####
+1. Etherpad plug-in skeleton that can inject client-side code into HTML page of pad before sending to Client
+
+2. Central Server broadcasting IP addresses of all participating clients of pad along with every message to client (as well as modifying each 
+	client's code also handling message to store IP address received)
+
+3. Figure out if Etherpad code prevents the scenario where a write of "Hello", then delete "Hello" by Client A gets sent to server, server only 
+	sees first write of "Hello", sends back update to A, and committed update from server overwrites A's second operation of delete "Hello" 
+	(does timeslider.js prevent this?)
+	
+4. Figure out how to spin up a background-process within client-side code in HTML page to periodically check if it can reach an IP address
+	(also, how to connect Task #1 to actually CALL and start this background-process)
+
+5. Figure out test scenarios for presentation's demo to Appavoo, to show that our plug-in adds fault-tolerance
+
+6. How to directly send messages to client-peers (on which socket?) if you know their IP address
+
+7. Given #4 and #6, how to have client-code contact other peers to reach consensus if central Etherpad server is down
+
+8. How to implement Raft leader election in client-side code (purpose of Raft leader-election is just to prevent split-brain)
+
+9. How to "lock-out" client from typing when detects server is down, change all of Etherpad's UI in HTML to having a display:none CSS attribute,
+	and then transitioning to our "crappy" UI
+	
+10. Deciding what our "crappy" UI is -- is it a simulation (console.log statements and randomly-generated, periodic append/delete/update changes)
+	or is it actually a UI that allows users to A) see old document with fancy highlighting/italics/coloring/etc. like it was before, B) type in
+	new changes in ONLY plaintext and send out changes, and C) actually see/apply incoming changes -- and implementing that UI
+	
+11. Have client-side code "persist" each of its own changes and most-current document periodically using HTML5 local-storage
+
+12. Modify client-side code to detect, upon receipt of (first?) update or HTML page of pad from central Etherpad server, whether there are locally
+	persisted changes in HTML5 local-storage, then if there ARE local-changes, locking out the user from typing, applying those changes to the document
+	(so that the server gets these last updates) and then deleting those local-storage updates and letting the client type again
+	- Need to be careful with specific corner cases here...? Update cursor and line numbers upon applying other peers' changes if we do implement UI
+	- Also need to detect, via follower's client-side code, whether leader has disconnected and given up control (to either another leader or server);
+		see #15 for more details
+	
+13. Given #4, when in temporary P2P Raft-network, have every client periodically detect whether server is back up again
+
+14. Given #13, implement transitioning to central Etherpad server again: if follower hears first, tell leader; when leader hears, lock-out user from
+	typing and broadcast to all followers that server has come back; when followers hear server is back online, also lock-out user from typing; have
+	all clients attempt to re-connect to central Etherpad server, and upon connection, transition back to original Etherpad UI by adding display:none
+	CSS attribute to our temporary "crappy" UI, removing display:none attribute from original Etherpad UI in background, and doing the same as #12
+	- As well, shutting off P2P connection (on ports?) of each temporary leader-client from receiving updates from disconnected returning followers
+	
+15. Figure out what to do in the event a follower disconnects from leader -- lock-out user from typing and message other peers to see if they can reach
+	leader, and A) if they can, wait until can connect to leader, or B) if they can't, wait until timeout to attempt new Raft leader election?
