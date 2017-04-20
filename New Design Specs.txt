@@ -257,6 +257,20 @@ of how we might need to do so in the future (for our crappy UI):
 	https://expressjs.com/en/api.html#app.get
 	***"HTML5 provides an application caching mechanism that lets web-based applications run offline."
 	https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache
+	"With application cache it is easy to make an offline version of a web application, by creating a cache manifest file."
+	https://www.w3schools.com/html/html5_app_cache.asp
+	
+--> Ordering of ep_offline_edit file execution:
+https://github.com/JohnMcLear/ep_offline_edit
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/ep.json
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/index.js
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/offlinemanifest.appcache
+https://www.w3schools.com/html/html5_app_cache.asp
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/js/aceEditEvent.js
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/js/blank.js
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/templates/offline.ejs
+https://github.com/JohnMcLear/ep_offline_edit/blob/master/static/js/offline_edit.js
+https://github.com/JohnMcLear/ep_offline_edit/tree/master/static/js
 	
 ##### On Potential Issues from Merging Changesets via Etherpad's Algorithm?
 Main Question: is the purpose of the timeslider object to prevent the case where a user writes X to the pad, then deletes X, 
@@ -264,6 +278,42 @@ and then before the delete can commit, the write on the server commits and then 
 old, updated write overrules the later delete operation and puts X back into the user's pad? Read up:
 	https://github.com/ether/etherpad-lite/blob/7ecf240d9e46ac41259100bf83242ca7b8fc205b/doc/easysync/easysync-full-description.pdf
 	
+
+
+##### Important Code To Note
+src/static/js/timeslider.js
+Line 75
+socket.on('disconnect', function()
+{
+  BroadcastSlider.showReconnectUI();
+});
+
+
+src/node/handler/PadMessageHandler.js
+Line 857 & 862
+Message Type = ACCEPT_COMMIT ==> Server committing a client's changes to the pad
+Message Type = NEW_CHANGES ==> Server broadcasting OTHER clients' changes to the pad to all other clients
+
+
+src/static/js/pad.js
+Line 272, socket.on('message', function(obj): on a client's receipt of a message from the server, if the client has access & it's not the first setup message & it's not a disconnect, pass in obj to function:
+==> src/static/js/collab_client.js
+	Line 258, handleMessageFromServer(evt): if the message type is NEW_CHANGES or ACCEPT_COMMIT, do some error-checking on the revision number of the change, and if all's good, apply the change via
+											editor.applyChangesToBase(evt.data.changeset, evt.data.author, evt.data.apool)
+	(Note: editor is a padeditor's ace field passed into collab_client.js via the getCollabClient() function called when the client-side document is ready and a new Ace2Editor() object has been created, 
+	and that function is called in pad.js that passes in the ace variable, and that variable is an Ace2Editor object called via Ace2Editor() in ace.js, and that function implements the applyChangesToBase()
+	function via the pendingInit() function which relies on ace2_inner.js to map the applyChangesToBase() function to the applyChangesToBase() function in the changesetTracker variable's methods (see line
+	1010 in ace2_inner.js) and THAT changesetTracker variable is initialized via the makeChangesetTracker() function in changesettracker.js)
+	==> Line 112, applyChangesToBase(c, optAuthor, apoolJsonObj): depending on the output of some executed functions and conditions I don't quite understand, it calls applyChangesetToDocument(postchange, someBool),
+																	where postChange is the output of calling Changeset.follow(userChangeset, c2, false, apool), where apool is the passed in reference to this user's
+																	apool object for this pad in makeChangsetTracker(), c2 is either just c or the result of another call to Changeset.follow() previously if there
+																	were other previously submitted changsets, and userChangeset is a variable in the makeChangsetTracker() object that may or may not have been modified
+																	at the time of calling applyChangesToBase() that's a Changeset object:
+		==> Changeset.js (2000 lines of code!)
+			Line 2017 & 2157, exports.follow(...): calls a bunch of tedious text-formatting, and eventually calls and returns exports.pack(...) (on Line 899) which returns another string-formatted Changset class
+		==> ace2_inner.js (5000 lines of code!)
+			Line 198, makeChangsetTracker(): again, just passes the info to a performDocumentApplyChangeset() function (on Line 2070), which is around a 90-line function that calls way too many other functions to
+												actually do the applying of the changeset (3 main different functions called, doRepApplyChangeset, domAndRepSplice, and mutateTextLines)
 	
 	
 	

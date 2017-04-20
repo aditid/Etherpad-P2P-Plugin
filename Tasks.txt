@@ -1,4 +1,64 @@
-##### Tasks #####
+##### NEW Tasks #####
+1. See Old Tasks #1
+
+2. Figure out how to install y-js modules with bower and accurately include them in script tag when injecting #1: https://bower.io/
+
+4. See Old Tasks #4, but solely for purposes of reaching central Etherpad server like in Old Tasks #13
+
+5. See Old Tasks #5, and also must understand details of y-js paper and algorithm for presentation (see linked paper)
+
+6. Like Old Tasks #7, except we have to figure out how to reach consensus on WebRTC "room" name (just our plug-in name + padID + something else?)
+
+7. Like Old Tasks #9, except we have to figure out how to use y-js's textarea bindings and create our own "crappy" UI
+
+8. Similar to Old Tasks #11, except we'd need to figure out when (and in what format) to persist changes, as it doesn't seem y-js helps with that;
+	would be extremely helpful and very important in understanding how ep_offline_edit actually saves and loads the HTML of Etherpad for temporary
+	editing; how does his code detect when the client-side code has disconnected from Etherpad???
+
+9. See Old Tasks #12, essentially have client-side code detect that there's persisted changes for a pad before letting user type again
+
+10. Similar to Old Tasks #14, except when any one client detects server is back up, must figure out how to notify all other clients, lock out
+	the user from typing, change to Etherpad's original UI and erase the old UI, and apply the recently-persisted changes to Etherpad's original
+	UI such that the server can receive all updates since it went down and commit them
+	
+11. Similar to Old Tasks #15, except the only logic to add is simply if client-peer can't connect to SimpleWebRTC room, lock user out from typing
+	in our y-js UI until it can either contact the server or connect back into the room
+	
+12. Simple task, just figure out how to configure a settings.json for the plug-in so that people can specify a URL for the signal channel of WebRTC
+	(see https://github.com/y-js/y-webrtc/blob/master/src/WebRTC.js at line 18, and https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/ 
+	and also WebRTC links)
+
+
+https://github.com/y-js/yjs
+http://y-js.org/
+https://github.com/y-js/yjs/blob/master/README.md
+http://y-js.org/#!/tutorial
+https://github.com/y-js/y-webrtc
+https://github.com/y-js/y-memory
+https://github.com/y-js/y-text
+http://y-js.org/#!/modules
+http://dbis.rwth-aachen.de/~derntl/papers/preprints/icwe2015-preprint.pdf
+
+--> y-js ACE != Etherpad's ACE: 
+	https://groups.google.com/forum/#!topic/etherpad-lite-dev/0uU_LXp_iPg
+	https://ace.c9.io/
+--> How WebRTC works & establishes P2P: 
+	https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
+	http://www.innoarchitech.com/what-is-webrtc-and-how-does-it-work/
+	http://stackoverflow.com/questions/12708252/how-does-webrtc-work
+	https://hacks.mozilla.org/2013/07/webrtc-and-the-ocean-of-acronyms/
+	https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/
+	https://github.com/andyet/SimpleWebRTC
+	https://simplewebrtc.com/
+	https://github.com/dmonad/signalmaster
+--> Further examples/papers on P2P and collaborative editing:
+	https://hal.archives-ouvertes.fr/inria-00108523/document
+	https://hal.archives-ouvertes.fr/inria-00336191/document
+	https://github.com/bit/ep_webrtc
+
+
+
+##### OLD Tasks #####
 1. Etherpad plug-in skeleton that can inject client-side code into HTML page of pad before sending to Client
 Done by Aditi
 
