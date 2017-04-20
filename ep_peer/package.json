@@ -1,9 +1,13 @@
 {
-  "name": "ep_p2p",
+"name": "ep_peer",
   "version": "0.0.1",
   "description": "Fault-tolerance for central Etherpad server failures through temporary client P2P networks to continue working on pads.",
-  "author": "BU CS651 Team: Aditi Dass, David Wang, JDong16, Liu Youcun",
-  "contributors": [],
+  "author": {
+    "name": "John McLear",
+    "email": "john@mclear.co.uk",
+    "url": "http://mclear.co.uk"
+  },
+  "contributors": "BU CS651 Team: Aditi Dass, David Wang, JDong16, Liu Youcun",
   "peerDependencies": {"ep_etherpad_lite":">=1.5.1"},
   "engines": {
     "node": ">= 0.6.0"

@@ -5,11 +5,8 @@
 	  "pre": [],
 	  "post": [],
       "hooks": {
-		"eejsBlock_scripts": "ep_p2p/static/js/htmlPreprocess:injectClientCode"
+		"eejsBlock_editbarMenuRight": "ep_p2p/feedback",
       },
-      "client_hooks": {
-        "documentReady": "ep_p2p/beginClientCode:startMain"
-      }
     }
   ]
 }
