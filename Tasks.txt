@@ -1,21 +1,27 @@
 ##### Tasks #####
 1. Etherpad plug-in skeleton that can inject client-side code into HTML page of pad before sending to Client
+Done by Aditi
 
 2. Central Server broadcasting IP addresses of all participating clients of pad along with every message to client (as well as modifying each 
 	client's code also handling message to store IP address received)
+Done by David - receiving IP addresses left
 
 3. Figure out if Etherpad code prevents the scenario where a write of "Hello", then delete "Hello" by Client A gets sent to server, server only 
 	sees first write of "Hello", sends back update to A, and committed update from server overwrites A's second operation of delete "Hello" 
 	(does timeslider.js prevent this?)
+Aditi
 	
 4. Figure out how to spin up a background-process within client-side code in HTML page to periodically check if it can reach an IP address
 	(also, how to connect Task #1 to actually CALL and start this background-process)
+Youcan
 
 5. Figure out test scenarios for presentation's demo to Appavoo, to show that our plug-in adds fault-tolerance
 
 6. How to directly send messages to client-peers (on which socket?) if you know their IP address
+Aditi
 
 7. Given #4 and #6, how to have client-code contact other peers to reach consensus if central Etherpad server is down
+Dong
 
 8. How to implement Raft leader election in client-side code (purpose of Raft leader-election is just to prevent split-brain)
 
@@ -25,7 +31,8 @@
 10. Deciding what our "crappy" UI is -- is it a simulation (console.log statements and randomly-generated, periodic append/delete/update changes)
 	or is it actually a UI that allows users to A) see old document with fancy highlighting/italics/coloring/etc. like it was before, B) type in
 	new changes in ONLY plaintext and send out changes, and C) actually see/apply incoming changes -- and implementing that UI
-	
+David	
+
 11. Have client-side code "persist" each of its own changes and most-current document periodically using HTML5 local-storage
 
 12. Modify client-side code to detect, upon receipt of (first?) update or HTML page of pad from central Etherpad server, whether there are locally
