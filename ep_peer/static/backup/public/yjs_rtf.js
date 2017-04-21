@@ -1,4 +1,5 @@
 //console.log("This is in yjs_rtf.js...");
+function loadQuill() {
 Y({
   db: {
 	name: 'memory' // use memory database adapter.
@@ -10,7 +11,7 @@ Y({
 	// name: 'xmpp'
 	room: 'my-room-etherpad-p2p-rtf-quill' // clients connecting to the same room share data 
   },
-  sourceDir: '/bower_components', // location of the y-* modules (browser only)
+  sourceDir: '/static/plugins/ep_peer/static/backup/bower_components', // location of the y-* modules (browser only)
   share: {
 	richtext: 'Richtext'
   }
@@ -53,3 +54,4 @@ Y({
   // bind quill to richtext type
   y.share.richtext.bindQuill(window.quill)
 })
+};

@@ -68,6 +68,7 @@ var offlineEdit = {
      
      //go through the div tags 
      offlineEdit.stopEtherpad();
+     loadQuill();
     },
     
     

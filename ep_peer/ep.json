@@ -7,7 +7,7 @@
         "eejsBlock_styles"       : "ep_peer/index",
         "eejsBlock_disconnected" : "ep_peer/index",
         "eejsBlock_htmlHead"     : "ep_peer/index",
-        "eejsBlock_htmlBody"     : "ep_peer/index",
+        "eejsBlock_body"     : "ep_peer/index",
         "expressConfigure"       : "ep_peer/index:expressConfigure",
         "expressCreateServer"    : "ep_peer/index:expressServer"
       },
