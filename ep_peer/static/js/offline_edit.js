@@ -9,7 +9,7 @@ var offlineEdit = {
   save: function (){
     var pathname = window.location.pathname;
     var padId = pathname.split('/');
-    window.padId = padId[padId.length - 1];
+    padId = padId[padId.length - 1];
 
     // when a document is edited it is stored as HTML in an object called padOffline.html
     localStorage.setItem(padId, offlineEdit.getPadHTML());
@@ -64,22 +64,27 @@ var offlineEdit = {
      padId = padId[padId.length - 1];
     
      offlineEdit.save();
-     console.log("done");
         
-     q_data = offlineEdit.etherpadToQuill()
-     console.log("Another");
+     q_data = offlineEdit.etherpadToQuill(padId)
 
     },
     
     
-    etherpadToQuill: function () {
-    
-     ep_data = offlineEdit.load(padId);
+    etherpadToQuill: function (padId) {
+     parser = new DOMParser();
+     ep_data = parser.parseFromString(offlineEdit.load(padId), "text/html");     
+     
      var q_data = "";
-     for(var i = 0; i < ep_data.length; i++){
-        var text = ep_data.innerText;
-        q_data += "<p>" + text + "<\p>";
-    }
+     if(!ep_data.body.childNodes.length) {
+         ep_length = 0;
+     } else {
+        var ep_length = ep_data.body.childNodes.length;
+        var ep_divs = ep_data.body.childNodes;
+        for(var i = 0; i < ep_length; i++){
+           var text = ep_divs[i].innerText;
+           q_data += "<p>" + text + "<\p>";
+        }
+     }
      return q_data;
 }
             
@@ -88,5 +93,3 @@ var offlineEdit = {
     
     
 };
-
-//blpmaXT35R  
