@@ -7,11 +7,6 @@ CACHE:
 /static/plugins/ep_peer/static/js/jquery.timeago.js
 /static/plugins/ep_peer/static/css/edit_offline.css
 
-/static/img/etherpad_lite_icons.png
-/static/img/loading.gif
-/static/img/leftarrow.png
-/static/img/connectingbar.gif
-
 /static/js/jquery.js
 /static/js/html10n.js
 /static/js/l10n.js
