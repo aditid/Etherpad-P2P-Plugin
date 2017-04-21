@@ -28,6 +28,9 @@
 	(see https://github.com/y-js/y-webrtc/blob/master/src/WebRTC.js at line 18, and https://www.html5rocks.com/en/tutorials/webrtc/infrastructure/ 
 	and also WebRTC links)
 
+Summary of Tasks:
+Plug-in Skeleton Code, Bower-Install Y-JS Modules, Background Worker to Test Central Server, Presentation Demo Tests, WebRTC Consensus on Room Name,
+Use Y-JS UI, Persist Client Changes, Read/Detect Persisted Client Changes, Transition Back to Etherpad UI, Lock User Out from Typing, Configure Plug-in settings.json
 
 https://github.com/y-js/yjs
 http://y-js.org/
