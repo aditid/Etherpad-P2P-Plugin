@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Site</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style>
+        body { padding-top:50px; }
+    </style>
+	<script type="text/javascript"src="/bower_components/yjs/y.js"></script>
+	<!--<script type="text/javascript"src="/yjs_textarea.js"></script>-->
+	<script src="//cdn.quilljs.com/1.2.4/quill.js"></script>
+	<link href="//cdn.quilljs.com/1.2.4/quill.snow.css" rel="stylesheet">
+	<script>
+		console.log("now loading yjs_rtf.js...")
+	</script>
+	<script type="text/javascript"src="/yjs_rtf.js"></script>
+	<script>
+		console.log("finished loading yjs_rtf.js...")
+	</script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>res.sendFile() Works!</h1>
+        </div>
+    </div>
+    <!--<textarea id="textfield" rows="20" cols="200"></textarea>-->
+	<div id="quill-container-p2p-placeholder">
+		<div id="quill-p2p-toolbar"></div>
+		<div id="quill-p2p-editor"></div>
+	</div>
+</body>
+</html>

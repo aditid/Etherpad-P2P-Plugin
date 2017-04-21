@@ -30,6 +30,17 @@ CACHE:
 /javascripts/lib/ep_etherpad-lite/static/js/colorutils.js
 /javascripts/lib/ep_etherpad-lite/static/js/rjquery.js
 
+
+/static/plugins/ep_peer/static/backup/bower_components/yjs/y.js
+/static/plugins/ep_peer/static/backup/bower_components/y-array/y-array.js
+/static/plugins/ep_peer/static/backup/bower_components/y-memory/y-memory.js
+/static/plugins/ep_peer/static/backup/bower_components/y-webrtc/y-webrtc.js
+/static/plugins/ep_peer/static/backup/bower_components/y-richtext/y-richtext.js
+//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css
+//cdn.quilljs.com/1.2.4/quill.snow.css
+//cdn.quilljs.com/1.2.4/quill.js
+
+
 FALLBACK:
 / /offline.html
 /p/ /offline.html

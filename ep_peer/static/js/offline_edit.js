@@ -54,7 +54,6 @@ var offlineEdit = {
       pad += "</div>";
       $('#pads').append(pad);
     }
-    $("time.timeago").timeago();
   },
 
 
@@ -66,7 +65,9 @@ var offlineEdit = {
      offlineEdit.save();
         
      q_data = offlineEdit.etherpadToQuill(padId)
-
+     
+     //go through the div tags 
+     offlineEdit.stopEtherpad();
     },
     
     
@@ -86,10 +87,15 @@ var offlineEdit = {
         }
      }
      return q_data;
-}
-            
+    },
     
     
-    
+    stopEtherpad: function () {       
+        var divs = document.body.getElementsByTagName("div");
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].style.display = 'none';        
+        }
+    }
+
     
 };

@@ -1,17 +1,58 @@
 {
-"name": "ep_peer",
-  "version": "0.0.1",
-  "description": "Fault-tolerance for central Etherpad server failures through temporary client P2P networks to continue working on pads.",
+  "_args": [
+    [
+      {
+        "raw": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+        "spec": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+        "type": "directory"
+      },
+      "/Users/aditi/651/etherpad-lite"
+    ]
+  ],
+  "_from": "node_modules/ep_peer",
+  "_id": "ep_peer@0.0.1",
+  "_inCache": true,
+  "_location": "/ep_peer",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+    "spec": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:node_modules/ep_peer",
+  "_shasum": "d9def01106d06d25b25b99a1b202b94e630323a7",
+  "_shrinkwrap": null,
+  "_spec": "/Users/aditi/651/etherpad-lite/node_modules/ep_peer",
+  "_where": "/Users/aditi/651/etherpad-lite",
   "author": {
     "name": "John McLear",
     "email": "john@mclear.co.uk",
     "url": "http://mclear.co.uk"
   },
   "contributors": "BU CS651 Team: Aditi Dass, David Wang, JDong16, Liu Youcun",
-  "peerDependencies": {"ep_etherpad_lite":">=1.5.1"},
+  "dependencies": {},
+  "description": "Fault-tolerance for central Etherpad server failures through temporary client P2P networks to continue working on pads.",
+  "devDependencies": {},
   "engines": {
     "node": ">= 0.6.0"
   },
-  "dependencies": {},
-  "readmeFilename": "README.md"
+  "name": "ep_peer",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "ep_etherpad_lite": ">=1.5.1"
+  },
+  "readme": "ERROR: No README data found!",
+  "readmeFilename": "README.md",
+  "version": "0.0.1"
 }

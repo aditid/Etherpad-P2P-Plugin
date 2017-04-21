@@ -2,11 +2,9 @@
   "parts": [
     {
       "name": "htmlInjectJS",
-	  "pre": [],
-	  "post": [],
       "hooks": {
-		"eejsBlock_editbarMenuRight": "ep_p2p/feedback",
-      },
+		"eejsBlock_editbarMenuRight": "ep_p2p/feedback"
+      }
     }
   ]
 }
