@@ -9,7 +9,7 @@ var offlineEdit = {
   save: function (){
     var pathname = window.location.pathname;
     var padId = pathname.split('/');
-    padId = padId[padId.length - 1];
+    window.padId = padId[padId.length - 1];
 
     // when a document is edited it is stored as HTML in an object called padOffline.html
     localStorage.setItem(padId, offlineEdit.getPadHTML());
@@ -55,8 +55,38 @@ var offlineEdit = {
       $('#pads').append(pad);
     }
     $("time.timeago").timeago();
-  }
-};
+  },
 
+
+    work_offline: function() {
+     var pathname = window.location.pathname;
+     var padId = pathname.split('/');
+     padId = padId[padId.length - 1];
+    
+     offlineEdit.save();
+     console.log("done");
+        
+     q_data = offlineEdit.etherpadToQuill()
+     console.log("Another");
+
+    },
+    
+    
+    etherpadToQuill: function () {
+    
+     ep_data = offlineEdit.load(padId);
+     var q_data = "";
+     for(var i = 0; i < ep_data.length; i++){
+        var text = ep_data.innerText;
+        q_data += "<p>" + text + "<\p>";
+    }
+     return q_data;
+}
+            
+    
+    
+    
+    
+};
 
 //blpmaXT35R  
