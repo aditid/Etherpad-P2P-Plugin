@@ -1,5 +1,6 @@
 //console.log("This is in yjs_rtf.js...");
 function loadQuill() {
+console.log("Starting");
 Y({
   db: {
 	name: 'memory' // use memory database adapter.
@@ -21,7 +22,7 @@ Y({
   
   var toolbarOptions = [['bold', 'italic', 'underline']];
   // create quill element
-  window.quill = new Quill('#editor', {
+  window.quill = new Quill('#quill-p2p-editor', {
 	formats: {//If any of these values are true but can take on multiple values, takes on any value I think
 	  script: false,//SUB, SUP, or super, sub?
 	  background: false,//uses parchment?

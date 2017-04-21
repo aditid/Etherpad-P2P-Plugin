@@ -92,9 +92,18 @@ var offlineEdit = {
     
     
     stopEtherpad: function () {       
+        var ql = ["quill-container-p2p-placeholder", "quill-p2p-toolbar", "quill-p2p-editor"];
         var divs = document.body.getElementsByTagName("div");
         for (var i = 0; i < divs.length; i++) {
-            divs[i].style.display = 'none';        
+            if (divs[i].id == ql[0]) {
+                continue;
+            } else if (divs[i].id == ql[1]) {
+                continue;
+            } else if (divs[i].id == ql[2]) {
+                continue;
+            } else {
+                divs[i].style.display = 'none';        
+            }
         }
     }
 
