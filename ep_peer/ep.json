@@ -6,13 +6,11 @@
         "eejsBlock_scripts"      : "ep_peer/index",
         "eejsBlock_styles"       : "ep_peer/index",
         "eejsBlock_disconnected" : "ep_peer/index",
-        "eejsBlock_htmlHead"     : "ep_peer/index",
-        "eejsBlock_body"     : "ep_peer/index",
-        "expressConfigure"       : "ep_peer/index:expressConfigure",
-        "expressCreateServer"    : "ep_peer/index:expressServer"
+		"eejsBlock_body"		 : "ep_peer/index",
+		"expressCreateServer"	 : "ep_peer/index:expressServer"
       },
-      "client_hooks":{
-        "aceEditEvent"           : "ep_peer/static/js/aceEditEvent:aceEditEvent"
+	  "client_hooks": {
+        "postAceInit": "ep_peer/static/documentReady:checkPersist"
       }
     }
   ]
